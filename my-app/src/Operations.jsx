@@ -31,8 +31,18 @@ function Operations() {
       <button className="Gasto Compartido-Boton" style={{float:'right',fontSize:'20px',padding:'20 px 10px', marginRight:'20px',marginTop:'20px'}}>Ingreso</button>
       <br></br><br></br>
       <br></br>
+      <div style={{fontSize:'20px',textAlign:'center', marginLeft:'10px'}}>
+      <br></br><br></br>
+      <label style={{fontSize:'20px',padding:'20 px 10px'}}>Monto:</label><br></br>
+      <input type="text" name="monto" value={usuario.monto} onChange={handleChange}></input>
+      <br></br><br></br><br></br>
+      <label style={{fontSize:'20px',padding:'20 px 10px'}}>Categoria:</label><br></br>
+      <input type="text" name="categoria" value={usuario.categoria} onChange={handleChange}></input>
+      <br></br><br></br><br></br><br></br>
+      <button className="Confirmar-Boton" style={{fontSize:'20px', padding:'20px 10 px'}}>Confirmar</button>
+      
       {mostrarCuadroEmergente && (
-        <div className="Cuadro-Emergente" style={{fontSize:'20px', padding:'20px 10 px',float:'right'}}>
+        <div className="Cuadro-Emergente" style={{fontSize:'20px', padding:'20px 10 px',float:'center'}}>
           <h2>Gasto Compartido</h2>
           <label style={{marginLeft:'0'}}>Amigo:</label>
           <br></br>
@@ -50,15 +60,6 @@ function Operations() {
           <button onClick={handleCerrarCuadroEmergente}>Cerrar</button>
         </div>
       )}
-      <div style={{fontSize:'20px',textAlign:'center', marginLeft:'10px'}}>
-      <br></br><br></br>
-      <label style={{fontSize:'20px',padding:'20 px 10px'}}>Monto:</label><br></br>
-      <input type="text" name="monto" value={usuario.monto} onChange={handleChange}></input>
-      <br></br><br></br><br></br>
-      <label style={{fontSize:'20px',padding:'20 px 10px'}}>Categoria:</label><br></br>
-      <input type="text" name="categoria" value={usuario.categoria} onChange={handleChange}></input>
-      <br></br><br></br><br></br><br></br>
-      <button className="Confirmar-Boton" style={{fontSize:'20px', padding:'20px 10 px'}}>Confirmar</button>
       </div>
 
     </div>
