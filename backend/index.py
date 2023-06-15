@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from flask import Flask, jsonify,  request
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost:3306/proyecto_financetech'
@@ -9,6 +10,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'my_secret_key'
 
 db = SQLAlchemy(app)
+
+CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}}, methods=["GET", "POST", "PUT", "DELETE"])
 
 @dataclass
 class User(db.Model):
@@ -19,7 +23,7 @@ class User(db.Model):
     status: str
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100), nullable=False, unique=True)
+    username = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False, unique=True)
     password = db.Column(db.String(100), nullable=False)
     status = db.Column(db.String(20))
@@ -79,6 +83,19 @@ with app.app_context():
 
 
 #APIs
+
+@app.route('/login',methods=['POST'])
+def route_login():
+    if request.method == 'POST':
+        data = request.get_json()
+        user = User.query.filter_by(email=data['email']).first()
+        try:
+            if user.password == data['password']:
+                return {'response':'SUCCESS', 'id':user.id}
+            else:
+                return {'response':'ERROR'}
+        except:
+            return {'response':'ERROR'}
 
 @app.route('/users',methods=['GET','POST'])
 def route_users():
