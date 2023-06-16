@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Stack } from '@mui/material';
+import { Box, Button, Stack, TextField } from '@mui/material';
 
 function Home() {
   const [income, setIncome] = useState('');
@@ -34,53 +34,27 @@ function Home() {
       <div>
         <Stack spacing={4} width={200}>
           <h1>Bienvenido</h1>
-          <button
-            className="page_profile"
-            style={{float: 'right',fontSize:'20px',padding:'20 px 10px', marginLeft:'20px',marginTop:'20px'}}
-            onClick={handleProfileClick}
-          >
+          <Button variant="outlined" className="page_profile" onClick={handleProfileClick}>
             Mi perfil
-          </button>
+          </Button>
           <p>Resumen</p>
           <h2>Ingresos</h2>
-          <input
-            type="number"
-            value={income}
-            onChange={handleIncomeChange}
-            placeholder="Ingreso"
-          />
+          <TextField id="Ingreso" label="Outlined" variant="outlined" type="number" onChange={handleIncomeChange} /> 
           <br></br>
           <h2>Gastos</h2>
-          <input
-            type="number"
-            value={expense}
-            onChange={handleExpenseChange}
-            placeholder="Gasto"
-          />
+          <TextField id="Gasto" label="Outlined" variant="outlined" type="number" onChange={handleExpenseChange} />
           <br></br>
-          <button
-            className="page_new_operation"
-            style={{float: 'left',fontSize:'20px',padding:'20 px 10px', marginLeft:'20px',marginTop:'20px'}}
-            onClick={handleNewOperationClick}
-          >
+          <Button variant="outlined" className="page_new_operation" onClick={handleNewOperationClick}>
             Nueva operación
-          </button>
+          </Button>
           <br></br>
-          <button
-            className="page_amigos"
-            style={{float: 'left',fontSize:'20px',padding:'20 px 10px', marginLeft:'20px',marginTop:'20px'}}
-            onClick={handleFriendsClick}
-          >
+          <Button variant="outlined" className="page_amigos" onClick={handleFriendsClick}>
             Amigos
-          </button>
+          </Button>
           <br></br>
-          <button
-            className="page_historial"
-            style={{float: 'left',fontSize:'20px',padding:'20 px 10px', marginLeft:'20px',marginTop:'20px'}}
-            onClick={handleHistoryClick}
-          >
+          <Button variant="outlined" className="page_historial" onClick={handleHistoryClick}>
             Historial
-          </button>
+          </Button>
         </Stack>
       </div>
     </Box>
