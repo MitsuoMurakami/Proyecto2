@@ -1,12 +1,20 @@
 import React,{useState} from 'react';
 import './App.css';
+import {  Box, Button, Stack, TextField, MenuItem } from "@mui/material";
 
-function Operations() {
+function App() {
 
   const [usuario, setUsuario] = useState({
     monto: 'Valor',
+    monto2: 'Valor',
     categoria: 'Valor',
+    amigo: 'Elegir nombre de Amigo'
     });
+    const opciones = [
+      { value: 'amigo1', label: 'Amigo 1' },
+      { value: 'amigo2', label: 'Amigo 2' },
+      { value: 'amigo3', label: 'Amigo 3' },
+    ];
   const [mostrarCuadroEmergente, setMostrarCuadroEmergente] = useState(false);
   const handleChange = (event) => {
     setUsuario({
@@ -24,46 +32,70 @@ function Operations() {
   
   return (
     
-    <div className="App">
-      <button className="Inicio-Boton" style={{float:'left',fontSize:'20px',padding:'20 px 10px', marginLeft:'20px',marginTop:'20px'}} onClick={() => {window.location.href = '/';}}>Inicio</button>
-      <button className="Ingreso-Boton" style={{float:'right',fontSize:'20px',padding:'20 px 10px', marginRight:'20px',marginTop:'20px'}} onClick={handleMostrarCuadroEmergente}>Gasto Compartido</button>
-      <button className="Gasto-Boton" style={{float:'right',fontSize:'20px',padding:'20 px 10px', marginRight:'20px',marginTop:'20px'}}>Gasto</button>
-      <button className="Gasto Compartido-Boton" style={{float:'right',fontSize:'20px',padding:'20 px 10px', marginRight:'20px',marginTop:'20px'}}>Ingreso</button>
+    <Box className="App">
+      <Button className="Inicio-Boton" style={{float:'left',fontSize:'20px',padding:'20 px 10px', marginLeft:'20px',marginTop:'20px'}}>Inicio</Button>
+      <Button className="Ingreso-Boton" style={{float:'right',fontSize:'20px',padding:'20 px 10px', marginRight:'20px',marginTop:'20px'}} onClick={handleMostrarCuadroEmergente}>Gasto Compartido</Button>
+      <Button className="Gasto-Boton" style={{float:'right',fontSize:'20px',padding:'20 px 10px', marginRight:'20px',marginTop:'20px'}}>Gasto</Button>
+      <Button className="Gasto Compartido-Boton" style={{float:'right',fontSize:'20px',padding:'20 px 10px', marginRight:'20px',marginTop:'20px'}}>Ingreso</Button>
       <br></br><br></br>
       <br></br>
-      <div style={{fontSize:'20px',textAlign:'center', marginLeft:'10px'}}>
+      <Box style={{fontSize:'20px',textAlign:'center', marginLeft:'10px'}}>
       <br></br><br></br>
-      <label style={{fontSize:'20px',padding:'20 px 10px'}}>Monto:</label><br></br>
-      <input type="text" name="monto" value={usuario.monto} onChange={handleChange}></input>
+      <TextField
+            id="outlined-basic"
+            label="Monto"
+            variant="outlined"
+            name="monto"
+            value={usuario.monto} 
+            onChange={handleChange} ></TextField>
       <br></br><br></br><br></br>
-      <label style={{fontSize:'20px',padding:'20 px 10px'}}>Categoria:</label><br></br>
-      <input type="text" name="categoria" value={usuario.categoria} onChange={handleChange}></input>
-      <br></br><br></br><br></br><br></br>
-      <button className="Confirmar-Boton" style={{fontSize:'20px', padding:'20px 10 px'}}>Confirmar</button>
-      
+      <TextField
+            id="outlined-basic"
+            label="Categoria"
+            variant="outlined"
+            name="categoria"
+            value={usuario.categoria} 
+            onChange={handleChange} ></TextField>
+      <br></br><br></br>
       {mostrarCuadroEmergente && (
-        <div className="Cuadro-Emergente" style={{fontSize:'20px', padding:'20px 10 px',float:'center'}}>
-          <h2>Gasto Compartido</h2>
-          <label style={{marginLeft:'0'}}>Amigo:</label>
+        <Box className="Cuadro-Emergente" style={{fontSize:'20px', padding:'20px 10 px'}}>
+          <h2 style={{color:'blue'}}>Gasto Compartido</h2>
+          <TextField
+          id="outlined-basic"
+          label="Amigo"
+          variant="outlined"
+          name="amigo"
+          value={opciones[usuario.amigo]}
+          onChange={handleChange}
+          style={{widht:'20000000'}}
+          select
+        >
+          {opciones.map((opcion) => (
+            <MenuItem key={opcion.value} value={opcion.value}>
+              {opcion.label}
+            </MenuItem>
+          ))}
+        </TextField>
           <br></br>
-          <select name="amigo">
-            <option value="Amigo 1">Amigo 1</option>
-            <option value="Amigo 2">Amigo 2</option>
-            <option value="Amigo 3">Amigo 3</option></select>
+          <br></br>
+          <TextField
+            id="outlined-basic"
+            label="Monto"
+            variant="outlined"
+            name="monto2"
+            value={usuario.monto2} 
+            onChange={handleChange} ></TextField>
           <br></br>
           <br></br>
-          <label style={{marginLeft:'0'}}>Monto:</label>
-          <br></br>
-          <input type="text" name="monto"></input> 
-          <br></br>
-          <br></br>
-          <button onClick={handleCerrarCuadroEmergente}>Cerrar</button>
-        </div>
+          <Button onClick={handleCerrarCuadroEmergente}>Cerrar</Button>
+        </Box>
       )}
-      </div>
+      <br></br><br></br><br></br>
+      <Button className="Confirmar-Boton" style={{fontSize:'20px', padding:'20px 10 px'}}>Confirmar</Button>
+      </Box>
 
-    </div>
+    </Box>
   );
 }
 
-export default Operations;
+export default App;
