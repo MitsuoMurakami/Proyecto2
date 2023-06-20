@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost:3306/proyecto_financetech'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Password@localhost:3306/proyecto_financetech'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.secret_key = 'my_secret_key'
@@ -199,3 +199,6 @@ def route_friends_id(friend_id):
         db.session.delete(friend)
         db.session.commit()
         return 'SUCCESS'
+
+if __name__ == "__main__":
+    app.run()

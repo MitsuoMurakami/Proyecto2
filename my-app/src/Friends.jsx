@@ -3,6 +3,7 @@ import './App.css';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Modal from 'react-modal';
+import { Box, Button, Stack, TextField } from '@mui/material';
 
 function Friends() {
   const [usuario, setUsuario] = useState({

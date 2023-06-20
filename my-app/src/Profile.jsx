@@ -26,10 +26,14 @@ function App() {
     toast.success('Datos actualizados');
   };
 
+  const handleHomeClick = () => {
+    window.location.href = '/';
+  };
+
   return (
     <Box className="App">
 
-      <Button className="Inicio-Boton" style={{float:'left',fontSize:'20px',padding:'20 px 10px', marginLeft:'20px',marginTop:'20px'}}>Inicio</Button>
+      <Button className="Inicio-Boton" style={{float:'left',fontSize:'20px',padding:'20 px 10px', marginLeft:'20px',marginTop:'20px'}} onClick={handleHomeClick}>Inicio</Button>
       <Button onClick={() => setEdicionHabilitada(true)} className="Editar-Boton" style={{float:'right',fontSize:'20px',padding:'20 px 10px', marginRight:'20px',marginTop:'20px' }}>Editar</Button>
       <br></br><br></br>
       <h1 style={{textAlign:'center', color:'blue'}}>MI PERFIL</h1>
