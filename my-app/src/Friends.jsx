@@ -99,9 +99,9 @@ function Friends() {
   };
 
   return (
-    <div className="App">
-      <button className="Inicio-Boton" style={{float:'left',fontSize:'20px',padding:'20 px 10px', marginLeft:'20px',marginTop:'20px'}} onClick={() => {window.location.href = '/';}}>Inicio</button>
-      <button style={{ float: 'right',fontSize:'20px',padding:'20 px 10px', marginLeft:'20px', marginRight:'20px',marginTop:'20px'}} onClick={openSolicitudesModal}>Ver Solicitudes</button>
+    <Box className="App"> 
+      <Button className="Inicio-Boton" style={{float:'left',fontSize:'20px',padding:'20 px 10px', marginLeft:'20px',marginTop:'20px'}} onClick={() => {window.location.href = '/';}}>Inicio</Button>
+      <Button style={{ float: 'right',fontSize:'20px',padding:'20 px 10px', marginLeft:'20px', marginRight:'20px',marginTop:'20px'}} onClick={openSolicitudesModal}>Ver Solicitudes</Button>
       <Modal
         isOpen={solicitudesModalOpen}
         onRequestClose={closeSolicitudesModal}
@@ -116,10 +116,10 @@ function Friends() {
             </li>
           ))}
         </ul>
-        <button onClick={closeSolicitudesModal}>Cerrar</button>
+        <Button variant="outlined" onClick={closeSolicitudesModal}>Cerrar</Button>
       </Modal>
       <div>
-        <button style={{ float: 'right',fontSize:'20px',padding:'20 px 10px', marginLeft:'20px',marginTop:'20px'}} onClick={openAgregarAmigoModal}>Añadir Amigo</button>
+        <Button style={{ float: 'right',fontSize:'20px',padding:'20 px 10px', marginLeft:'20px',marginTop:'20px'}} onClick={openAgregarAmigoModal}>Añadir Amigo</Button>
         <Modal
           isOpen={agregarAmigoModalOpen}
           onRequestClose={closeAgregarAmigoModal}
@@ -131,12 +131,12 @@ function Friends() {
             value={nuevoAmigo}
             onChange={(e) => setNuevoAmigo(e.target.value)}
           />
-          <button onClick={handleAgregarAmigo}>Añadir Amigo</button>
-          <button onClick={closeAgregarAmigoModal}>Cancelar</button>
+          <Button variant="outlined" style={{ fontSize:'10px',padding:'20 px 5px', marginLeft:'20px'}}  onClick={handleAgregarAmigo}>Añadir Amigo</Button>
+          <Button variant="outlined" style={{ fontSize:'10px',padding:'20 px 5px', marginLeft:'20px'}}  onClick={closeAgregarAmigoModal}>Cancelar</Button>
         </Modal>
       </div>
       <div>
-        <button style={{ float: 'right',fontSize:'20px',padding:'20 px 10px', marginLeft:'20px',marginTop:'20px'}} onClick={openGastoCompartidoModal}>Añadir Gasto Compartido</button>
+        <Button style={{ float: 'right',fontSize:'20px',padding:'20 px 10px', marginLeft:'20px',marginTop:'20px'}} onClick={openGastoCompartidoModal}>Añadir Gasto Compartido</Button>
         <Modal
           isOpen={gastoCompartidoModalOpen}
           onRequestClose={closeGastoCompartidoModal}
@@ -162,8 +162,8 @@ function Friends() {
           {usuario.amigos.map((amigo) => (
             <li key={amigo.id}>
               {amigo.nombre}
-              <button onClick={() => handleEliminarAmigo(amigo.id)}>Eliminar</button>
-              <button onClick={openGastoCompartidoModal}>Gastos Compartidos</button>
+              <Button variant="outlined" style={{ fontSize:'10px',padding:'20 px 5px', marginLeft:'20px'}}  onClick={() => handleEliminarAmigo(amigo.id)}>Eliminar</Button>
+              <Button variant="outlined" style={{ fontSize:'10px',padding:'20 px 5px', marginLeft:'20px'}}  onClick={openGastoCompartidoModal}>Gastos Compartidos</Button>
             </li>
           ))}
         </ul>
@@ -172,13 +172,13 @@ function Friends() {
           {usuario.gastosCompartidos.map((gasto) => (
             <li key={gasto.id}>
               {gasto.nombre}
-              <button>Aceptar</button>
-              <button>Rechazar</button>
+              <Button variant="outlined" style={{ fontSize:'10px',padding:'20 px 5px', marginLeft:'20px'}} >Aceptar</Button>
+              <Button variant="outlined" style={{ fontSize:'10px',padding:'20 px 5px', marginLeft:'20px'}} >Rechazar</Button>
             </li>
           ))}
         </ul>
       </div>
-    </div>
+    </Box>
   );
 }
 

@@ -29,11 +29,16 @@ function App() {
   const handleCerrarCuadroEmergente = () => {
       setMostrarCuadroEmergente(false);
     };
+
+    const handleProfileClick = () => {
+      window.location.href = '/Profile';
+    };
+  
   
   return (
     
     <Box className="App">
-      <Button className="Inicio-Boton" style={{float:'left',fontSize:'20px',padding:'20 px 10px', marginLeft:'20px',marginTop:'20px'}}>Inicio</Button>
+      <Button className="Inicio-Boton" style={{float:'left',fontSize:'20px',padding:'20 px 10px', marginLeft:'20px',marginTop:'20px'}} onClick={() => {window.location.href = '/';}}>Inicio</Button>
       <Button className="Ingreso-Boton" style={{float:'right',fontSize:'20px',padding:'20 px 10px', marginRight:'20px',marginTop:'20px'}} onClick={handleMostrarCuadroEmergente}>Gasto Compartido</Button>
       <Button className="Gasto-Boton" style={{float:'right',fontSize:'20px',padding:'20 px 10px', marginRight:'20px',marginTop:'20px'}}>Gasto</Button>
       <Button className="Gasto Compartido-Boton" style={{float:'right',fontSize:'20px',padding:'20 px 10px', marginRight:'20px',marginTop:'20px'}}>Ingreso</Button>
@@ -46,6 +51,7 @@ function App() {
             label="Monto"
             variant="outlined"
             name="monto"
+            type="number"
             value={usuario.monto} 
             onChange={handleChange} ></TextField>
       <br></br><br></br><br></br>
@@ -54,6 +60,7 @@ function App() {
             label="Categoria"
             variant="outlined"
             name="categoria"
+            type="number"
             value={usuario.categoria} 
             onChange={handleChange} ></TextField>
       <br></br><br></br>
