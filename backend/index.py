@@ -4,14 +4,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Password@localhost:3306/proyecto_financetech'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost:3306/proyecto_financetech' # url de la DB
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.secret_key = 'my_secret_key'
 
 db = SQLAlchemy(app)
 
-CORS(app)
+CORS(app) # permite conectar el aplicativo
 CORS(app, resources={r"/*": {"origins": "*"}}, methods=["GET", "POST", "PUT", "DELETE"])
 
 @dataclass

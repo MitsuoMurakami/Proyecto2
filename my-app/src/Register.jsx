@@ -40,7 +40,7 @@ function Register() {
 
   async function fetchRegister() {
     var data = {"email":email, "username":username, "password":password}
-    await fetch("http://localhost:5000/users", {
+    await fetch("https://josebojorquez.pythonanywhere.com/users", {
       method: 'POST',
       headers: {
           'Accept': 'application/json',

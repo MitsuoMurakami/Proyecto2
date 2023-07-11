@@ -17,7 +17,7 @@ function Login() {
 
   async function fetchLogin() {
     var data = {"email":email, "password":password}
-    await fetch("http://localhost:5000/login", {
+    await fetch("https://josebojorquez.pythonanywhere.com/login", {
       method: 'POST',
       headers: {
           'Accept': 'application/json',
