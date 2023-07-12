@@ -7,41 +7,46 @@ import { Box, Button, Stack, TextField } from '@mui/material';
 
 function Friends() {
   const [usuario, setUsuario] = useState({
-    usuario: 'Valores por defecto sacados de la base de datos',
-    correo: 'Valores por defecto sacados de la base de datos',
-    contraseña: 'Valores por defecto sacados de la base de datos',
+    usuario: '',
+    correo: '',
+    contraseña: '',
+  });
+  
+  const [lista, setLista] = useState({
     amigos: [
-      { id: 1, nombre: 'Amigo 1' },
-      { id: 2, nombre: 'Amigo 2' },
-      { id: 3, nombre: 'Amigo 3' }
     ],
     solicitudes: [
-      { id: 4, nombre: 'Solicitud 1' },
-      { id: 5, nombre: 'Solicitud 2' },
-      { id: 6, nombre: 'Solicitud 3' }
     ],
     gastosCompartidos: [
-      { id: 7, nombre: 'Gasto compartido 1' },
-      { id: 8, nombre: 'Gasto compartido 2' },
-      { id: 9, nombre: 'Gasto compartido 3' }
     ]
   });
+
+  const id = localStorage.getItem("financetech_user_id");
 
   const [solicitudesModalOpen, setSolicitudesModalOpen] = useState(false);
   const [nuevoAmigo, setNuevoAmigo] = useState('');
   const [agregarAmigoModalOpen, setAgregarAmigoModalOpen] = useState(false);
-  const [gastoCompartidoModalOpen, setGastoCompartidoModalOpen] = useState(false);
   const [nuevoGasto, setNuevoGasto] = useState('');
 
+  async function fetchUser() {
+    const response = await fetch(`https://josebojorquez.pythonanywhere.com/users/${id}`);
+    const data = await response.json();
+    try{
+      setUsuario({...usuario, usuario:data.username, correo:data.email})
+    } catch (error){
+      window.location.href = '/Login';
+    }
+  }
+
   const handleEliminarAmigo = (amigoId) => {
-    setUsuario((prevState) => ({
+    setLista((prevState) => ({
       ...prevState,
       amigos: prevState.amigos.filter((amigo) => amigo.id !== amigoId),
     }));
   };
 
   const handleAceptarSolicitud = (solicitudId) => {
-    setUsuario((prevState) => {
+    setLista((prevState) => {
       const solicitud = prevState.solicitudes.find(
         (solicitud) => solicitud.id === solicitudId
       );
@@ -73,29 +78,12 @@ function Friends() {
   };
 
   const handleAgregarAmigo = () => {
-    setUsuario((prevState) => ({
+    setLista((prevState) => ({
       ...prevState,
       amigos: [...prevState.amigos, { id: Date.now(), nombre: nuevoAmigo }],
     }));
     setNuevoAmigo('');
     closeAgregarAmigoModal();
-  };
-
-  const openGastoCompartidoModal = () => {
-    setGastoCompartidoModalOpen(true);
-  };
-
-  const closeGastoCompartidoModal = () => {
-    setGastoCompartidoModalOpen(false);
-  };
-
-  const handleAgregarGastoCompartido = () => {
-    setUsuario((prevState) => ({
-      ...prevState,
-      gastosCompartidos: [...prevState.gastosCompartidos, { id: Date.now(), nombre: nuevoGasto }],
-    }));
-    setNuevoGasto('');
-    closeGastoCompartidoModal();
   };
 
   return (
@@ -109,7 +97,7 @@ function Friends() {
       >
         <h2>Solicitudes</h2>
         <ul>
-          {usuario.solicitudes.map((solicitud) => (
+          {lista.solicitudes.map((solicitud) => (
             <li key={solicitud.id}>
               {solicitud.nombre}
               <button onClick={() => handleAceptarSolicitud(solicitud.id)}>Aceptar</button>
@@ -135,41 +123,23 @@ function Friends() {
           <Button variant="outlined" style={{ fontSize:'10px',padding:'20 px 5px', marginLeft:'20px'}}  onClick={closeAgregarAmigoModal}>Cancelar</Button>
         </Modal>
       </div>
-      <div>
-        <Button style={{ float: 'right',fontSize:'20px',padding:'20 px 10px', marginLeft:'20px',marginTop:'20px'}} onClick={openGastoCompartidoModal}>Añadir Gasto Compartido</Button>
-        <Modal
-          isOpen={gastoCompartidoModalOpen}
-          onRequestClose={closeGastoCompartidoModal}
-          contentLabel="Agregar Gasto Compartido"
-        >
-          <h2>Agregar Gasto Compartido</h2>
-          <input
-            type="text"
-            value={nuevoGasto}
-            onChange={(e) => setNuevoGasto(e.target.value)}
-          />
-          <button onClick={handleAgregarGastoCompartido}>Añadir Gasto Compartido</button>
-          <button onClick={closeGastoCompartidoModal}>Cancelar</button>
-        </Modal>
-      </div>
-      <br /><br />
 
       <div style={{ marginTop: '30px' }}>
         <ToastContainer position="center" autoClose={3000} />
-
+        
+        <br></br><br></br><br></br>
         <h2>Amigos:</h2>
         <ul>
-          {usuario.amigos.map((amigo) => (
+          {lista.amigos.map((amigo) => (
             <li key={amigo.id}>
               {amigo.nombre}
               <Button variant="outlined" style={{ fontSize:'10px',padding:'20 px 5px', marginLeft:'20px'}}  onClick={() => handleEliminarAmigo(amigo.id)}>Eliminar</Button>
-              <Button variant="outlined" style={{ fontSize:'10px',padding:'20 px 5px', marginLeft:'20px'}}  onClick={openGastoCompartidoModal}>Gastos Compartidos</Button>
             </li>
           ))}
         </ul>
         <h2>Gastos Compartidos:</h2>
         <ul>
-          {usuario.gastosCompartidos.map((gasto) => (
+          {lista.gastosCompartidos.map((gasto) => (
             <li key={gasto.id}>
               {gasto.nombre}
               <Button variant="outlined" style={{ fontSize:'10px',padding:'20 px 5px', marginLeft:'20px'}} >Aceptar</Button>
