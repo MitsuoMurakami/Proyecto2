@@ -5,14 +5,16 @@ from flask_cors import CORS
 from datetime import date
 app = Flask(__name__)
 
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://JoseBojorquez:penguin2312@JoseBojorquez.mysql.pythonanywhere-services.com:3306/JoseBojorquez$default'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.secret_key = 'my_secret_key'
 
 db = SQLAlchemy(app)
 
-CORS(app)
+CORS(app) # permite conectar el aplicativo
 CORS(app, resources={r"/*": {"origins": "*"}}, methods=["GET", "POST", "PUT", "DELETE"])
 
 @dataclass
