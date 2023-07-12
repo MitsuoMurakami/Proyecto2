@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import './App.css';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -6,12 +6,46 @@ import {  Box, Button, Stack, TextField } from "@mui/material";
 
 function App() {
   const [usuario, setUsuario] = useState({
-    usuario: 'Valores por defecto sacados de la base de datos',
-    correo: 'Valores por defecto sacados de la base de datos',
-    contraseña: 'Valores por defecto sacados de la base de datos',
+    usuario: '',
+    correo: '',
+    contraseña: '',
   });
   const [edicionHabilitada, setEdicionHabilitada] = useState(false);
   const [actualizado, setActualizado] = useState(false);
+
+  const id = localStorage.getItem("financetech_user_id");
+
+  async function fetchUser() {
+    const response = await fetch(`https://josebojorquez.pythonanywhere.com/users/${id}`);
+    const data = await response.json();
+    try{
+      setUsuario({...usuario, usuario:data.username, correo:data.email})
+    } catch (error){
+      window.location.href = '/Login';
+    }
+  }
+
+  async function fetchUpdateUser() {
+    var data = {"email":usuario.correo, "username":usuario.usuario, "password":usuario.contraseña}
+    const responseUpdate = await fetch(`https://josebojorquez.pythonanywhere.com/users/${id}`, {
+      method: 'PUT',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+    var res = await responseUpdate.text();
+    console.log(res);
+    if (res == "SUCCESS"){
+      toast.success("Datos Actualizados");
+    }
+    else{
+      alert("El correo electrónico ya está registrado o la contraseña es incorrecta");
+    }
+    fetchUser();
+  }
+
   const handleChange = (event) => {
     setUsuario({
       ...usuario,
@@ -20,15 +54,18 @@ function App() {
   };
   const handleSave = () => {
     //Guardar datos del usuario:
-    console.log('Datos guardados:', usuario);
+    fetchUpdateUser();
     setActualizado(true);
     setEdicionHabilitada(false);
-    toast.success('Datos actualizados');
   };
 
   const handleHomeClick = () => {
     window.location.href = '/';
   };
+
+  useEffect(() => {
+    fetchUser();
+  }, [])
 
   return (
     <Box className="App">
@@ -48,7 +85,7 @@ function App() {
             disabled={actualizado||!edicionHabilitada} ></TextField>
       <br></br><br></br>
       <TextField
-            id="outlined-basic"
+            id="outlined-basic2"
             label="Correo"
             variant="outlined"
             name="correo"
@@ -57,10 +94,11 @@ function App() {
             disabled={actualizado||!edicionHabilitada} ></TextField>
       <br></br><br></br>
       <TextField
-            id="outlined-basic"
-            label="Contraseña"
+            id="outlined-basic3"
+            label="Ingresar Contraseña"
             variant="outlined"
             name="contraseña"
+            type="password"
             value={usuario.contraseña} 
             onChange={handleChange} 
             disabled={actualizado||!edicionHabilitada} ></TextField>

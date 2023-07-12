@@ -2,9 +2,12 @@ from dataclasses import dataclass
 from flask import Flask, jsonify,  request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from datetime import date
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost:3306/proyecto_financetech' # url de la DB
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://JoseBojorquez:penguin2312@JoseBojorquez.mysql.pythonanywhere-services.com:3306/JoseBojorquez$default'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.secret_key = 'my_secret_key'
@@ -30,13 +33,13 @@ class User(db.Model):
     transactions = db.relationship('Transaction', backref='user', lazy=True)
     friends1 = db.relationship('Friend', foreign_keys='Friend.user1_id', backref='user1', lazy=True)
     friends2 = db.relationship('Friend', foreign_keys='Friend.user2_id', backref='user2', lazy=True)
-    
+
     def __repr__(self):
         return f'<User {self.username}>'
-    
+
     def check_password(self, password):
         return self.password == password
-    
+
 @dataclass
 class Transaction(db.Model):
     id: int
@@ -117,12 +120,17 @@ def route_users_id(user_id):
     elif request.method == 'PUT':
         data = request.get_json()
         user = User.query.filter_by(id=user_id).first()
-        user.username = data['username']
-        user.email = data['email']
-        user.password = data['password']
-        db.session.commit()
-        db.session.refresh(user)
-        return 'SUCCESS'
+        if user.password == data['password']:
+            try:
+                user.email = data['email']
+                user.username = data['username']
+                user.password = data['password']
+                db.session.commit()
+                db.session.refresh(user)
+                return 'SUCCESS'
+            except:
+                return 'ERROR'
+        return 'ERROR'
     elif request.method == 'DELETE':
         user = User.query.get_or_404(user_id)
         db.session.delete(user)
@@ -130,6 +138,26 @@ def route_users_id(user_id):
         return 'SUCCESS'
 
 
+
+@app.route('/summary/<user_id>',methods=['GET'])
+def route_summary(user_id):
+    if request.method == 'GET':
+        current_date = date.today()
+        temp = current_date.month
+        year = str(current_date.year)
+        if temp < 10:
+            month = "%-0{}".format(str(temp)+'-'+year)
+        else:
+            month = "%-{}".format(str(temp)+'-'+year)
+        transactions = Transaction.query.filter((Transaction.user_id == user_id) & (Transaction.date.like(month))).all()
+        ingreso = 0
+        gasto = 0
+        for t in transactions:
+            if t.type == "INGRESO":
+                ingreso += t.amount
+            else:
+                gasto += t.amount
+        return {"ingreso":ingreso,"gasto":gasto}
 
 @app.route('/transactions',methods=['GET','POST'])
 def route_transactions():
@@ -164,7 +192,7 @@ def route_transactions_id(transaction_id):
         db.session.delete(transaction)
         db.session.commit()
         return 'SUCCESS'
-    
+
 
 
 @app.route('/friends',methods=['GET','POST'])
@@ -199,6 +227,10 @@ def route_friends_id(friend_id):
         db.session.delete(friend)
         db.session.commit()
         return 'SUCCESS'
+
+@app.route('/', methods=['GET'])
+def test_connection():
+    return 'Connection Working'
 
 if __name__ == "__main__":
     app.run()
